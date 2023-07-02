@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "784908974272",
+    "firebase_url": "https://emathtoco-bec56-default-rtdb.firebaseio.com",
+    "project_id": "emathtoco-bec56",
+    "storage_bucket": "emathtoco-bec56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784908974272:android:babcd783ec172f2e5d5525",
+        "android_client_info": {
+          "package_name": "com.example.aplikasi_ta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784908974272-7lf1243dk6aiqvc7p0hbi948nc20mpnq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACzx-nFHvRiugAsAG2MkIXD6rF2iLiM8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784908974272-7lf1243dk6aiqvc7p0hbi948nc20mpnq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
