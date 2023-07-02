@@ -323,8 +323,6 @@ class _addtaskState extends State<addtask> {
                   ),
                   onPressed: () async {
                     if (_key.currentState!.validate()) {
-                      final newFileName =
-                          '${_namacontroller.text}_${_nimcontroller.text}';
                       if (widget.inventory != null) {
                         final result = await inventoryservice.editInventory(
                             Inventory(
@@ -368,7 +366,7 @@ class _addtaskState extends State<addtask> {
                       } else {
                         String extension = p.extension(pickedImage!.path);
                         String newFileName =
-                            '${_namacontroller.text}_${_nimcontroller.text}_${_nocontroller.text}$extension';
+                            '${_namacontroller.text}_${_nimcontroller.text}_${_nocontroller.text}_${_matkulcontroller.text}$extension';
                         String imageUrl = '';
                         if (pickedImage != null) {
                           imageUrl = await FirebaseStorageService.uploadImage(
