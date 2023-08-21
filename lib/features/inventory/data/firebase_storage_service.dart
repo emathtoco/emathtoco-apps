@@ -7,7 +7,7 @@ class FirebaseStorageService {
   static FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
   static Future<String> uploadImage(String uid, String imagePath) async {
-    Reference reference = _firebaseStorage.ref(uid);
+    Reference reference = _firebaseStorage.ref('Koding Kompresi/$uid.jpg');
 
     try {
       await reference.putFile(File(imagePath));

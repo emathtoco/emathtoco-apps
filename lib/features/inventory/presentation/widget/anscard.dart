@@ -41,7 +41,7 @@ class anscard extends StatelessWidget {
               width: 10,
             ),
             Text(
-              'No ${inventory.no}',
+              'No ${inventory.soal}',
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,

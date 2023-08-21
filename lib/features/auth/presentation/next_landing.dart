@@ -1,10 +1,12 @@
-// ignore_for_file: camel_case_types
+import 'dart:math';
 
+import 'package:aplikasi_ta/features/auth/presentation/login.dart';
+import 'package:aplikasi_ta/features/inventory/presentation/home.dart';
 import 'package:aplikasi_ta/wrapper.dart';
 import 'package:flutter/material.dart';
 
 class next_landing extends StatefulWidget {
-   next_landing({super.key});
+  next_landing({super.key});
 
   @override
   State<next_landing> createState() => _next_landingState();
@@ -16,21 +18,22 @@ class _next_landingState extends State<next_landing> {
     return Scaffold(
         body: ListView(
       children: [
-         SizedBox(
-          height: 130,
+        SizedBox(
+          height: 155,
         ),
         Image.asset(
-          'assets/images/learn.png',
-          height: 275,
+          'assets/images/work.png',
+          height: 250,
+          // fit: BoxFit.cover,
         ),
-         SizedBox(
+        SizedBox(
           height: 20,
         ),
         Image.asset(
-          'assets/images/EMATH TOCO.png',
+          'assets/images/EMATH TOCO2.png',
           height: 24,
         ),
-         SizedBox(
+        SizedBox(
           height: 20,
         ),
         Center(
@@ -38,7 +41,7 @@ class _next_landingState extends State<next_landing> {
           child: Container(
             width: 165,
             height: 72,
-            child:  Center(
+            child: Center(
               child: Text(
                 'Mudah digunakan Mudah dioperasikan Mudah dimengerti',
                 textAlign: TextAlign.center,
@@ -51,21 +54,18 @@ class _next_landingState extends State<next_landing> {
             ),
           ),
         ),
-         SizedBox(
+        SizedBox(
           height: 151,
         ),
-        SizedBox(
-          height: 48,
-          width: 190,
-          child: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 112),
-            child: ElevatedButton(
+        Column(
+          children: [
+            ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:  Color(0xFF009933),
-                  minimumSize:  Size(190, 48),
+                  backgroundColor: Color(0xFF4481EB),
+                  minimumSize: Size(190, 48),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
-                      side:  BorderSide(
+                      side: BorderSide(
                         color: Colors.black,
                         width: 2,
                       )),
@@ -74,7 +74,7 @@ class _next_landingState extends State<next_landing> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>  wrapper(),
+                        builder: (context) => wrapper(),
                       ));
                 },
                 child: Stack(
@@ -91,7 +91,7 @@ class _next_landingState extends State<next_landing> {
                           ..color = Colors.black,
                       ),
                     ),
-                     Text(
+                    Text(
                       'NEXT',
                       style: TextStyle(
                         fontFamily: 'Poppins',
@@ -102,8 +102,8 @@ class _next_landingState extends State<next_landing> {
                     ),
                   ],
                 )),
-          ),
-        )
+          ],
+        ),
       ],
     ));
   }

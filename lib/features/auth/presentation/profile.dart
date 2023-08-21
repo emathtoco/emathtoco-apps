@@ -1,10 +1,11 @@
-// ignore_for_file: camel_case_types, use_build_context_synchronously
-
 import 'package:aplikasi_ta/features/auth/data/auth_service.dart';
+import 'package:aplikasi_ta/features/auth/presentation/login.dart';
+import 'package:aplikasi_ta/features/inventory/presentation/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class profile extends StatelessWidget {
-   profile({super.key});
+  profile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +15,10 @@ class profile extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon:  Icon(Icons.close_rounded),
-            color:  Color(0xFF66080A),
+            icon: Icon(Icons.close_rounded),
+            color: Color(0xFF66080A),
           ),
-          iconTheme:  IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
           elevation: 0,
         ),
@@ -36,44 +37,45 @@ class profile extends StatelessWidget {
                     width: 2.0,
                   ),
                 ),
-                child:  Center(
+                child: Center(
                   child: Text(
-                        'MA',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 24,
-                          color: Colors.white,
-                        ),
-                      ),
+                     _getFirstLetterFromEmail(
+                    FirebaseAuth.instance.currentUser!.email ?? 'email'),
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 24,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
-               SizedBox(
+              SizedBox(
                 height: 10,
               ),
-               Text(
-                'email@gmail.com',
+              Text(
+                FirebaseAuth.instance.currentUser!.email ?? 'email',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                 ),
               ),
-               SizedBox(
+              SizedBox(
                 height: 60,
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize:  Size(250, 48),
-                    backgroundColor:  Color(0xFF66080A),
+                    minimumSize: Size(250, 48),
+                    backgroundColor: Color(0xFF66080A),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
-                        side:  BorderSide(
+                        side: BorderSide(
                           color: Colors.black,
                           width: 2,
                         )),
                   ),
-                  onPressed: () async{
+                  onPressed: () async {
                     await AuthService.logOut();
                     Navigator.pop(context);
                   },
@@ -91,7 +93,7 @@ class profile extends StatelessWidget {
                             ..color = Colors.black,
                         ),
                       ),
-                       Text(
+                      Text(
                         'LOGOUT',
                         style: TextStyle(
                           fontFamily: 'Poppins',
@@ -105,5 +107,9 @@ class profile extends StatelessWidget {
             ],
           ),
         ));
+  }
+
+  String _getFirstLetterFromEmail(String email) {
+    return email[0];
   }
 }

@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:aplikasi_ta/core/widget/loading_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path/path.dart' as p;
 import 'package:aplikasi_ta/features/inventory/data/firebase_storage_service.dart';
 import 'package:aplikasi_ta/features/inventory/data/image_picker_handler.dart';
@@ -21,7 +23,7 @@ class _addtaskState extends State<addtask> {
   late TextEditingController _namacontroller;
   late TextEditingController _nimcontroller;
   late TextEditingController _kelascontroller;
-  late TextEditingController _nocontroller;
+  late TextEditingController _soalcontroller;
   late TextEditingController _matkulcontroller;
 
   File? pickedImage;
@@ -39,14 +41,14 @@ class _addtaskState extends State<addtask> {
       nama = widget.inventory!.nama;
       nim = widget.inventory!.nim;
       kelas = widget.inventory!.kelas;
-      no = widget.inventory!.no;
+      no = widget.inventory!.soal;
       matkul = widget.inventory!.matkul;
     }
 
     _namacontroller = TextEditingController(text: nama);
     _nimcontroller = TextEditingController(text: nim);
     _kelascontroller = TextEditingController(text: kelas);
-    _nocontroller = TextEditingController(text: no);
+    _soalcontroller = TextEditingController(text: no);
     _matkulcontroller = TextEditingController(text: matkul);
   }
 
@@ -55,7 +57,7 @@ class _addtaskState extends State<addtask> {
     _namacontroller.dispose();
     _nimcontroller.dispose();
     _kelascontroller.dispose();
-    _nocontroller.dispose();
+    _soalcontroller.dispose();
     _matkulcontroller.dispose();
     super.dispose();
   }
@@ -156,7 +158,7 @@ class _addtaskState extends State<addtask> {
                                   horizontal: 15,
                                 ),
                                 child: _dataitem(
-                                    _nocontroller, 'No Soal', 'ex: 1'),
+                                    _soalcontroller, 'No Soal', 'ex: 1'),
                               ),
                             ),
                           ],
@@ -216,7 +218,7 @@ class _addtaskState extends State<addtask> {
                                                 style: ElevatedButton.styleFrom(
                                                   minimumSize: Size(95, 38),
                                                   backgroundColor:
-                                                      Color(0xFF009933),
+                                                      Color(0xFF4481EB),
                                                   shape: RoundedRectangleBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -264,41 +266,103 @@ class _addtaskState extends State<addtask> {
                                       )),
                                 ],
                               )
-                            : GestureDetector(
-                                onTap: () async {
-                                  _pickImage();
-                                },
-                                child: Container(
-                                    height: 300,
-                                    width: double.infinity,
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 60),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.black,
-                                        width: 2.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.add_photo_alternate_outlined,
-                                          size: 100,
-                                        ),
-                                        Text(
-                                          'No Items',
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 14,
-                                          ),
-                                        )
-                                      ],
-                                    )),
-                              ),
+                            : widget.inventory != null
+                                ? widget.inventory!.imageUrl == ''
+                                    ? _containerAddImage()
+                                    : Stack(
+                                        children: [
+                                          Container(
+                                              height: 300,
+                                              width: double.infinity,
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 60),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.black,
+                                                  width: 2.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Stack(
+                                                children: [
+                                                  Positioned.fill(
+                                                    child: Image.network(
+                                                      widget
+                                                          .inventory!.imageUrl,
+                                                      height: 300,
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                    bottom: 10,
+                                                    right: 10,
+                                                    child: ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          minimumSize:
+                                                              Size(95, 38),
+                                                          backgroundColor:
+                                                              Color(0xFF4481EB),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  side:
+                                                                      BorderSide(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    width: 2,
+                                                                  )),
+                                                        ),
+                                                        onPressed: () async {
+                                                          _pickImage();
+                                                        },
+                                                        child: Stack(
+                                                          children: [
+                                                            Text(
+                                                              'Edit Photo',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 14,
+                                                                foreground:
+                                                                    Paint()
+                                                                      ..style =
+                                                                          PaintingStyle
+                                                                              .stroke
+                                                                      ..strokeWidth =
+                                                                          2
+                                                                      ..color =
+                                                                          Colors
+                                                                              .black,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              'Edit Photo',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  ),
+                                                ],
+                                              )),
+                                        ],
+                                      )
+                                : _containerAddImage(),
                       ],
                     ),
                   ),
@@ -313,7 +377,7 @@ class _addtaskState extends State<addtask> {
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(190, 48),
-                    backgroundColor: Color(0xFF009933),
+                    backgroundColor: Color(0xFF4481EB),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                         side: BorderSide(
@@ -322,17 +386,29 @@ class _addtaskState extends State<addtask> {
                         )),
                   ),
                   onPressed: () async {
+                    // String extension = p.extension(pickedImage!.path);
+                    String newFileName =
+                        '${_soalcontroller.text}_${_nimcontroller.text}_';
                     if (_key.currentState!.validate()) {
+                      LoadingDialog.showLoadingDialog(context);
                       if (widget.inventory != null) {
+                        String imageUrl = '';
+                        if (pickedImage != null) {
+                          imageUrl = await FirebaseStorageService.uploadImage(
+                              newFileName, pickedImage!.path);
+                        }
                         final result = await inventoryservice.editInventory(
+                            FirebaseAuth.instance.currentUser!,
                             Inventory(
-                                nama: _namacontroller.text,
-                                nim: _nimcontroller.text,
-                                kelas: _kelascontroller.text,
-                                no: _nocontroller.text,
-                                matkul: _matkulcontroller.text,
-                                imageUrl: '',
-                                updatedAt: DateTime.now().toIso8601String()),
+                              nama: _namacontroller.text,
+                              nim: _nimcontroller.text,
+                              kelas: _kelascontroller.text,
+                              soal: _soalcontroller.text,
+                              matkul: _matkulcontroller.text,
+                              imageUrl: imageUrl,
+                              updatedAt: DateTime.now().toIso8601String(),
+                              nilai: '',
+                            ),
                             widget.docId!);
 
                         if (result) {
@@ -349,6 +425,7 @@ class _addtaskState extends State<addtask> {
                             ),
                           )));
                           Navigator.pop(context);
+                          //await inventoryservice.copyFirestoreToRealtimeDB(FirebaseAuth.instance.currentUser!);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Center(
@@ -364,9 +441,6 @@ class _addtaskState extends State<addtask> {
                           )));
                         }
                       } else {
-                        String extension = p.extension(pickedImage!.path);
-                        String newFileName =
-                            '${_namacontroller.text}_${_nimcontroller.text}_${_nocontroller.text}_${_matkulcontroller.text}$extension';
                         String imageUrl = '';
                         if (pickedImage != null) {
                           imageUrl = await FirebaseStorageService.uploadImage(
@@ -374,14 +448,17 @@ class _addtaskState extends State<addtask> {
                         }
 
                         final result = await inventoryservice.addInventory(
+                            FirebaseAuth.instance.currentUser!,
                             Inventory(
-                                nama: _namacontroller.text,
-                                nim: _nimcontroller.text,
-                                kelas: _kelascontroller.text,
-                                no: _nocontroller.text,
-                                matkul: _matkulcontroller.text,
-                                imageUrl: imageUrl,
-                                updatedAt: DateTime.now().toIso8601String()));
+                              nama: _namacontroller.text,
+                              nim: _nimcontroller.text,
+                              kelas: _kelascontroller.text,
+                              soal: _soalcontroller.text,
+                              matkul: _matkulcontroller.text,
+                              imageUrl: imageUrl,
+                              updatedAt: DateTime.now().toIso8601String(),
+                              nilai: '',
+                            ));
 
                         if (result) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -397,6 +474,7 @@ class _addtaskState extends State<addtask> {
                             ),
                           )));
                           Navigator.pop(context);
+                          //await inventoryservice.copyFirestoreToRealtimeDB(FirebaseAuth.instance.currentUser!);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Center(
@@ -412,6 +490,7 @@ class _addtaskState extends State<addtask> {
                           )));
                         }
                       }
+                      LoadingDialog.dismissLoadingDialog(context);
                     }
                   },
                   child: Stack(
@@ -504,5 +583,41 @@ class _addtaskState extends State<addtask> {
     final imagePicker = ImagePickerHandler();
     pickedImage = await imagePicker.pickImage();
     setState(() {});
+  }
+
+  Widget _containerAddImage() {
+    return GestureDetector(
+      onTap: () async {
+        _pickImage();
+      },
+      child: Container(
+          height: 300,
+          width: double.infinity,
+          margin: EdgeInsets.symmetric(horizontal: 60),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black,
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.add_photo_alternate_outlined,
+                size: 100,
+              ),
+              Text(
+                'No Items',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14,
+                ),
+              )
+            ],
+          )),
+    );
   }
 }

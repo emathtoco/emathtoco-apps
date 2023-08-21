@@ -1,11 +1,8 @@
-// ignore_for_file: camel_case_types, duplicate_ignore, sized_box_for_whitespace
-
 import 'package:aplikasi_ta/features/auth/presentation/next_landing.dart';
 import 'package:flutter/material.dart';
 
-// ignore: camel_case_types
 class landing_page extends StatefulWidget {
-   landing_page({super.key});
+  landing_page({super.key});
 
   @override
   State<landing_page> createState() => _landing_pageState();
@@ -17,21 +14,21 @@ class _landing_pageState extends State<landing_page> {
     return Scaffold(
         body: ListView(
       children: [
-         SizedBox(
+        SizedBox(
           height: 130,
         ),
         Image.asset(
-          'assets/images/think.png',
+          'assets/images/study.png',
           height: 275,
         ),
-         SizedBox(
+        SizedBox(
           height: 20,
         ),
         Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               Text(
+              Text(
                 'Apasih',
                 style: TextStyle(
                   fontFamily: 'Poppins',
@@ -39,17 +36,17 @@ class _landing_pageState extends State<landing_page> {
                   fontSize: 16,
                 ),
               ),
-               SizedBox(
+              SizedBox(
                 width: 5,
               ),
               Image.asset(
-                'assets/images/EMATH TOCO.png',
+                'assets/images/EMATH TOCO2.png',
                 height: 22,
               ),
-               SizedBox(
+              SizedBox(
                 width: 5,
               ),
-               Text(
+              Text(
                 '?',
                 style: TextStyle(
                   fontFamily: 'Poppins',
@@ -60,14 +57,14 @@ class _landing_pageState extends State<landing_page> {
             ],
           ),
         ),
-         SizedBox(
+        SizedBox(
           height: 20,
         ),
         Center(
           child: Container(
             width: 271,
             height: 72,
-            child:  Center(
+            child: Center(
               child: Text(
                 'Aplikasi Pengoreksi Esai Otomatis yang akan mempermudah pengoreksian esai kamu',
                 textAlign: TextAlign.center,
@@ -80,21 +77,18 @@ class _landing_pageState extends State<landing_page> {
             ),
           ),
         ),
-         SizedBox(
+        SizedBox(
           height: 151,
         ),
-        SizedBox(
-          height: 48,
-          width: 190,
-          child: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 112),
-            child: ElevatedButton(
+        Column(
+          children: [
+            ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  minimumSize:  Size(190, 48),
-                  backgroundColor:  Color(0xFF009933),
+                  minimumSize: Size(190, 48),
+                  backgroundColor: Color(0xFF4481EB),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
-                      side:  BorderSide(
+                      side: BorderSide(
                         color: Colors.black,
                         width: 2,
                       )),
@@ -103,7 +97,7 @@ class _landing_pageState extends State<landing_page> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>  next_landing(),
+                        builder: (context) => next_landing(),
                       ));
                 },
                 child: Stack(
@@ -120,7 +114,7 @@ class _landing_pageState extends State<landing_page> {
                           ..color = Colors.black,
                       ),
                     ),
-                     Text(
+                    Text(
                       'NEXT',
                       style: TextStyle(
                         fontFamily: 'Poppins',
@@ -131,8 +125,8 @@ class _landing_pageState extends State<landing_page> {
                     ),
                   ],
                 )),
-          ),
-        )
+          ],
+        ),
       ],
     ));
   }

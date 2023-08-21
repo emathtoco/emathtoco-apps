@@ -1,7 +1,9 @@
 import 'package:aplikasi_ta/features/inventory/data/inventoryservice.dart';
 import 'package:aplikasi_ta/features/inventory/data/model/Inventory.dart';
 import 'package:aplikasi_ta/features/inventory/presentation/addtask.dart';
+import 'package:aplikasi_ta/features/inventory/presentation/full_image_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -63,8 +65,10 @@ class _filedetailState extends State<filedetail> {
                       Spacer(),
                       IconButton(
                           onPressed: () async {
-                            final result = await inventoryservice
-                                .deleteInventory(widget.docId);
+                            final result =
+                                await inventoryservice.deleteInventory(
+                                    FirebaseAuth.instance.currentUser!,
+                                    widget.docId);
 
                             if (result) {
                               ScaffoldMessenger.of(context)
@@ -115,6 +119,8 @@ class _filedetailState extends State<filedetail> {
                 ),
                 FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                   future: FirebaseFirestore.instance
+                      .collection('user')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
                       .collection('inventory')
                       .doc(widget.docId)
                       .get(),
@@ -200,7 +206,7 @@ class _filedetailState extends State<filedetail> {
                                         horizontal: 15,
                                       ),
                                       child:
-                                          _dataitem('No Soal', inventory!.no),
+                                          _dataitem('No Soal', inventory!.soal),
                                     ),
                                   ),
                                 ],
@@ -223,6 +229,25 @@ class _filedetailState extends State<filedetail> {
                                     ),
                                     child: _dataitem(
                                         'Mata Kuliah', inventory!.matkul)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                  vertical: 20,
+                                ),
+                                child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 2.0,
+                                        ),
+                                      ),
+                                    ),
+                                    child:
+                                        _dataitem('Nilai', inventory!.nilai)),
                               ),
                               SizedBox(
                                 height: 20,
@@ -260,23 +285,34 @@ class _filedetailState extends State<filedetail> {
                                       ),
                                     )
                                   else
-                                    Container(
-                                        height: 300,
-                                        width: double.infinity,
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 60),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.black,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Image.network(
-                                          inventory!.imageUrl,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return FullImageScreen(
+                                                imageUrl: inventory!.imageUrl);
+                                          },
+                                        ));
+                                      },
+                                      child: Container(
                                           height: 300,
-                                        )),
+                                          width: double.infinity,
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 60),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 2.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Image.network(
+                                            inventory!.imageUrl,
+                                            height: 300,
+                                          )),
+                                    ),
                                 ],
                               ),
                               Column(

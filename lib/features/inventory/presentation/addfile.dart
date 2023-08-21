@@ -1,10 +1,10 @@
-// ignore_for_file: camel_case_types
-
+import 'package:aplikasi_ta/core/widget/loading_dialog.dart';
 import 'package:aplikasi_ta/features/inventory/data/model/Inventory.dart';
 import 'package:aplikasi_ta/features/inventory/presentation/addtask.dart';
 import 'package:aplikasi_ta/features/inventory/presentation/filedetail.dart';
 import 'package:aplikasi_ta/features/inventory/presentation/widget/anscard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -83,7 +83,10 @@ class _addfileState extends State<addfile> {
                       color: Colors.white,
                       child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
                         future: FirebaseFirestore.instance
+                            .collection('user')
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
                             .collection('inventory')
+                            .orderBy('soal')
                             .get(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
@@ -118,7 +121,7 @@ class _addfileState extends State<addfile> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(190, 48),
-                      backgroundColor: Color(0xFF009933),
+                      backgroundColor: Color(0xFF4481EB),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                           side: BorderSide(
